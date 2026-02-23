@@ -18,8 +18,10 @@
             {% if recipe.prep_time %}
               <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
             {% endif %}
-            {% if recipe.rating %}
-              <span><strong>Rating:</strong> {{ recipe.rating }} Stars</span>
+            {% if recipe.avg_rating %}
+              <span><strong>Rating:</strong> {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)</span>
+            {% else %}
+              <span><strong>Rating:</strong> Not yet rated</span>
             {% endif %}
           </div>
           <div class="recipe-actions">

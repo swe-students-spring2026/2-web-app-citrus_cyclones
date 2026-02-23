@@ -422,5 +422,21 @@ def inject_saved_ids():
         return {"current_user_saved_ids": user.get("saved_recipes", [])}
     return {"current_user_saved_ids": []}
 
+@app.route("/rate/<recipe_id>", methods=["POST"])
+@login_required
+def rate_recipe(recipe_id):
+    rating = request.form.get("rating")
+    if rating:
+        rating = int(rating)
+        recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+        ratings = recipe.get("ratings", {})
+        ratings[str(current_user.id)] = rating  # overwrites if already rated
+        avg = round(sum(ratings.values()) / len(ratings), 1)
+        recipes_collection.update_one(
+            {"_id": ObjectId(recipe_id)},
+            {"$set": {"ratings": ratings, "avg_rating": avg}}
+        )
+    return redirect(url_for("view_recipe", recipe_id=recipe_id))
+    
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
