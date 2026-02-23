@@ -30,7 +30,6 @@
       
       <div class="rating-section">
         <input class="field" type="number" name="rating" placeholder="Rate dish" min="1" max="5" />
-        <button type="button" class="btn">Save Dish</button>
       </div>
       
       <div class="recipe-actions">
@@ -40,6 +39,22 @@
         <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}" class="button-background">
           <span class="button-text">Delete Recipe</span>
         </a>
+        <form method="POST"
+          action="{% if recipe._id in current_user_saved_ids %}
+            {{ url_for('unsave_recipe', recipe_id=recipe._id) }}
+          {% else %}
+            {{ url_for('save_recipe', recipe_id=recipe._id) }}
+          {% endif %}">
+          <button type="submit" class="button-background">
+            <span class="button-text">
+              {% if recipe._id in current_user_saved_ids %}
+                Unsave
+              {% else %}
+                Save
+              {% endif %}
+            </span>
+          </button>
+        </form>
       </div>
     </div>
   {% else %}
