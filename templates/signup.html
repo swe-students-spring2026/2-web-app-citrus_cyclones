@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
+
+  <form class="form" method="post">
+    <input class="field" name="email" type="email" placeholder="Email Address" />
+    <input class="field" name="username" placeholder="Username" />
+    <input class="field" name="password" type="password" placeholder="Password" />
+
+    <button class="btn">Sign up</button>
+    <p class="form-footer">Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+  </form>
+{% endblock %}

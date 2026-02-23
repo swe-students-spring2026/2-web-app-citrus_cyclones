@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  background: white;
+  color: black;
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 40px;
+  margin-top: 60px;
+}
+
+/* Hamburger menu overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s, opacity 0.2s;
+}
+
+.nav-overlay.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nav-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-panel-title {
+  font-size: 40px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.nav-link {
+  color: black;
+  text-decoration: underline;
+  font-size: 22px;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+.hamburger-menu {
+  position: absolute;
+  left: 16px;
+  font-size: 38px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.screen-title {
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.screen-content {
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* inputs */
+.field {
+  height: 60px;
+  border: 1px solid #111;
+  padding: 0 16px;
+  font-size: 18px;
+  outline: none;
+}
+
+.field::placeholder {
+  color: rgb(97, 97, 97)
+}
+
+.btn {
+  height: 74px;
+  background: #000;
+  color: #fff;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-footer {
+  margin: 0;
+  font-size: 18px;
+}
+
+.form-footer a {
+  color: #000;
+  text-decoration: underline;
+}
