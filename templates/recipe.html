@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ recipe.name if recipe else 'Recipe Not Found' }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/screen-header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
+</head>
+<body>
+    <header class="screen-header">
+        <a href="{{ url_for('home') }}" class="hamburger-menu">
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+        </a>
+        <h1 class="screen-title">Recipe Details</h1>
+        <div class="hamburger-spacer"></div>
+    </header>
+
+    <main class="container">
+        {% if recipe %}
+            <article class="recipe-detail">
+                <h2>{{ recipe.name }}</h2>
+                
+                {% if recipe.description %}
+                    <section class="recipe-description">
+                        <h3>Description</h3>
+                        <p>{{ recipe.description }}</p>
+                    </section>
+                {% endif %}
+                
+                {% if recipe.ingredients %}
+                    <section class="recipe-ingredients">
+                        <h3>Ingredients</h3>
+                        <ul>
+                        {% for ingredient in recipe.ingredients %}
+                            <li>{{ ingredient }}</li>
+                        {% endfor %}
+                        </ul>
+                    </section>
+                {% endif %}
+                
+                {% if recipe.instructions %}
+                    <section class="recipe-instructions">
+                        <h3>Instructions</h3>
+                        <ol>
+                        {% for step in recipe.instructions %}
+                            <li>{{ step }}</li>
+                        {% endfor %}
+                        </ol>
+                    </section>
+                {% endif %}
+                
+                <div class="recipe-actions">
+                    <a href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}" class="button-background">
+                        <span class="button-text">Edit Recipe</span>
+                    </a>
+                    <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}" class="button-background button-danger">
+                        <span class="button-text">Delete Recipe</span>
+                    </a>
+                    <a href="{{ url_for('home') }}" class="button-background">
+                        <span class="button-text">Back to Home</span>
+                    </a>
+                </div>
+            </article>
+        {% else %}
+            <div class="error-message">
+                <p>Recipe not found.</p>
+                <a href="{{ url_for('home') }}" class="button-background">
+                    <span class="button-text">Back to Home</span>
+                </a>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

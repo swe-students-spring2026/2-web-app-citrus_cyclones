@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Recipes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/screen-header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+</head>
+<body>
+    <header class="screen-header">
+        <a href="{{ url_for('home') }}" class="hamburger-menu">
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+        </a>
+        <h1 class="screen-title">Search Recipes</h1>
+        <div class="hamburger-spacer"></div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <form method="POST" class="search-form">
+                <div class="search-input-group">
+                    <input 
+                        type="text" 
+                        name="query" 
+                        placeholder="Search recipes by name..." 
+                        value="{{ query }}"
+                        class="search-input"
+                        autofocus
+                    >
+                    <button type="submit" class="button-background search-button">
+                        <span class="button-text">Search</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="search-results">
+            {% if results %}
+                <h2>Search Results ({{ results|length }} found)</h2>
+                <ul class="recipe-cards">
+                {% for recipe in results %}
+                    <li class="recipe-card">
+                        <h3>{{ recipe.name }}</h3>
+                        {% if recipe.description %}
+                            <p>{{ recipe.description[:100] }}{% if recipe.description|length > 100 %}...{% endif %}</p>
+                        {% endif %}
+                        <div class="recipe-actions">
+                            <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}" class="button-background">
+                                <span class="button-text">View</span>
+                            </a>
+                            <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}" class="button-background button-danger">
+                                <span class="button-text">Delete</span>
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% elif query %}
+                <div class="no-results">
+                    <p>No recipes found for "{{ query }}"</p>
+                    <p>Try a different search term.</p>
+                </div>
+            {% else %}
+                <div class="search-prompt">
+                    <p>Enter a recipe name to search.</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <div class="back-link">
+            <a href="{{ url_for('home') }}" class="button-background">
+                <span class="button-text">Back to Home</span>
+            </a>
+        </div>
+    </main>
+</body>
+</html>
