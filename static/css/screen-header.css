@@ -2,7 +2,9 @@
     /* make all items in screen-header be spaced evenly */
     display: flex;
     align-items: center;
-    
+    margin-top: 60px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 .hamburger-bar {
