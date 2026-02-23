@@ -69,6 +69,7 @@ def signup():
             "email": email,
             "username": username,
             "password": password,
+            "saved_recipes": []
         })
 
         return redirect(url_for("login"))
@@ -263,6 +264,7 @@ def create_recipe():
                     "ingredients": ingredients,
                     "prep_time": int(prep_time) if prep_time else None,
                     "instructions": instructions,
+                    "author_id": current_user.id
                 }
             )
         return redirect(url_for("home"))
@@ -273,7 +275,18 @@ def create_recipe():
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html")
+    user = db.users.find_one({"_id": ObjectId(current_user.id)})
+
+    saved_ids = user.get("saved_recipes", [])
+    saved_recipes = list(
+        recipes_collection.find({"_id": {"$in": saved_ids}})
+    )
+
+    user_recipes = list(
+        recipes_collection.find({"author_id": current_user.id})
+    )
+
+    return render_template("profile.html", saved_recipes=saved_recipes, user_recipes=user_recipes)
 
 
 @app.route("/recipe/<recipe_id>")
@@ -304,6 +317,7 @@ def add_recipe():
                     "description": description,
                     "ingredients": ingredients,
                     "instructions": instructions,
+                    "author_id": current_user.id
                 }
             )
         return redirect(url_for("home"))
@@ -375,6 +389,31 @@ def search():
 
     return render_template("search.html", results=results, query=query)
 
+@app.route("/save/<recipe_id>", methods=["POST"])
+@login_required
+def save_recipe(recipe_id):
+    db.users.update_one(
+        {"_id": ObjectId(current_user.id)},
+        {"$addToSet": {"saved_recipes": ObjectId(recipe_id)}}
+    )
+
+    return redirect(request.referrer or url_for("profile"))
+
+@app.route("/unsave/<recipe_id>", methods=["POST"])
+@login_required
+def unsave_recipe(recipe_id):
+    db.users.update_one(
+        {"_id": ObjectId(current_user.id)},
+        {"$pull": {"saved_recipes": ObjectId(recipe_id)}}
+    )
+    return redirect(request.referrer or url_for("profile"))
+
+@app.context_processor
+def inject_saved_ids():
+    if current_user.is_authenticated:
+        user = db.users.find_one({"_id": ObjectId(current_user.id)})
+        return {"current_user_saved_ids": user.get("saved_recipes", [])}
+    return {"current_user_saved_ids": []}
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
