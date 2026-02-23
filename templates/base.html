@@ -57,17 +57,3 @@
     {% endif %}
   </body>
 </html>
-
-
-<!-- <nav>
-  <a href="{{ url_for('home') }}">Home</a>
-
-  {% if current_user.is_authenticated %}
-    <span>Logged in as {{ current_user.id }}</span>
-    <form method="post" action="{{ url_for('logout') }}" style="display:inline;">
-      <button type="submit">Logout</button>
-    </form>
-  {% else %}
-    <a href="{{ url_for('login') }}">Login</a>
-  {% endif %}
-</nav> -->
