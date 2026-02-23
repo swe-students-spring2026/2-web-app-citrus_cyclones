@@ -1,9 +1,77 @@
 {% extends "base.html" %}
 
 {% block header %}
-  Profile
+  {{ current_user.username }}
 {% endblock %}
 
 {% block content %}
-  <p>Profile — coming soon.</p>
+  <!-- Your Saved Dishes Section -->
+  <section class="profile-section">
+    <h2 class="section-title">Your Saved</h2>
+    {% if saved_recipes %}
+      <ul class="recipe-cards">
+      {% for recipe in saved_recipes %}
+        <li class="recipe-card">
+          <h3>{{ recipe.name }}</h3>
+          <div class="recipe-card-info">
+            {% if recipe.ingredients %}
+              <span><strong>Ingredients:</strong> {{ recipe.ingredients[:4]|join(', ') }}{% if recipe.ingredients|length > 4 %}...{% endif %}</span>
+            {% endif %}
+            {% if recipe.prep_time %}
+              <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
+            {% endif %}
+            {% if recipe.rating %}
+              <span><strong>Rating:</strong> {{ recipe.rating }} Stars</span>
+            {% endif %}
+          </div>
+          <div class="recipe-actions">
+            <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}" class="button-background">
+              <span class="button-text">View Dish</span>
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-recipes">No saved dishes yet.</p>
+    {% endif %}
+  </section>
+
+  <!-- Your Dishes Section -->
+  <section class="profile-section">
+    <h2 class="section-title">Your Dishes</h2>
+    {% if user_recipes %}
+      <ul class="recipe-cards">
+      {% for recipe in user_recipes %}
+        <li class="recipe-card">
+          <h3>{{ recipe.name }}</h3>
+          <div class="recipe-card-info">
+            {% if recipe.ingredients %}
+              <span><strong>Ingredients:</strong> {{ recipe.ingredients[:4]|join(', ') }}{% if recipe.ingredients|length > 4 %}...{% endif %}</span>
+            {% endif %}
+            {% if recipe.prep_time %}
+              <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
+            {% endif %}
+            {% if recipe.rating %}
+              <span><strong>Rating:</strong> {{ recipe.rating }} Stars</span>
+            {% endif %}
+          </div>
+          <div class="recipe-actions">
+            <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}" class="button-background">
+              <span class="button-text">See Dish</span>
+            </a>
+            <a href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}" class="button-background">
+              <span class="button-text">Edit Dish</span>
+            </a>
+            <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}" class="button-background">
+              <span class="button-text">Delete Dish</span>
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-recipes">You haven't created any dishes yet.</p>
+    {% endif %}
+  </section>
 {% endblock %}

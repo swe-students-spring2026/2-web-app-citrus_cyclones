@@ -5,5 +5,13 @@
 {% endblock %}
 
 {% block content %}
-  <p>Create Recipe — coming soon.</p>
+  <form class="form" method="POST">
+    <input class="field" type="text" name="name" placeholder="Dish title" required />
+    <input class="field" type="text" name="ingredients" placeholder="Ingredients" />
+    <input class="field" type="number" name="prep_time" placeholder="Preparation time (minutes)" />
+    <textarea class="field" name="instructions" placeholder="Instructions" rows="6"></textarea>
+    
+    <button type="submit" class="btn">Share Dish</button>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+  </form>
 {% endblock %}

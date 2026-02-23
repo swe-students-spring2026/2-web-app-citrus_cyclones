@@ -1,15 +1,18 @@
 {% extends "base.html" %}
+
+{% block header %}Sign Up{% endblock %}
+
 {% block content %}
   {% if error %}
-    <p style="color:red;">{{ error }}</p>
+    <p class="error-text">{{ error }}</p>
   {% endif %}
 
   <form class="form" method="post">
-    <input class="field" name="email" type="email" placeholder="Email Address" />
-    <input class="field" name="username" placeholder="Username" />
-    <input class="field" name="password" type="password" placeholder="Password" />
+    <input class="field" name="email" type="email" placeholder="Email Address" required />
+    <input class="field" name="username" placeholder="Username" required />
+    <input class="field" name="password" type="password" placeholder="Password" required />
 
-    <button class="btn">Sign up</button>
-    <p class="form-footer">Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+    <button class="btn">Create Account</button>
+    <a href="{{ url_for('login') }}" class="btn btn-secondary">Back to Sign In</a>
   </form>
 {% endblock %}

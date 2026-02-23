@@ -21,7 +21,11 @@
     {% endif %}
     <header class="screen-header">
       {% if current_user.is_authenticated %}
-        <button type="button" class="hamburger-menu" id="hamburgerBtn" aria-label="Open menu">☰</button>
+        <button type="button" class="hamburger-menu" id="hamburgerBtn" aria-label="Open menu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
       {% endif %}
       <h1 class="screen-title">{% block header %}Let Them Cook{% endblock %}</h1>
     </header>

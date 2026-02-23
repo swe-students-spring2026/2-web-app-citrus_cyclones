@@ -1,50 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Delete Recipe</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/screen-header.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
-</head>
-<body>
-    <header class="screen-header">
-        <a href="{{ url_for('home') }}" class="hamburger-menu">
-            <div class="hamburger-bar"></div>
-            <div class="hamburger-bar"></div>
-            <div class="hamburger-bar"></div>
-        </a>
-        <h1 class="screen-title">Delete Recipe</h1>
-        <div class="hamburger-spacer"></div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="container">
-        {% if recipe %}
-            <div class="delete-confirmation">
-                <h2>Confirm Deletion</h2>
-                <p>Are you sure you want to delete the recipe:</p>
-                <p class="recipe-name-highlight">"{{ recipe.name }}"</p>
-                <p class="warning-text">This action cannot be undone.</p>
-                
-                <div class="delete-actions">
-                    <form method="POST" class="delete-form">
-                        <button type="submit" class="button-background button-danger">
-                            <span class="button-text">Yes, Delete</span>
-                        </button>
-                    </form>
-                    
-                    <a href="{{ url_for('home') }}" class="button-background">
-                        <span class="button-text">Cancel</span>
-                    </a>
-                </div>
-            </div>
-        {% else %}
-            <div class="error-message">
-                <p>Recipe not found.</p>
-                <a href="{{ url_for('home') }}" class="button-background">
-                    <span class="button-text">Back to Home</span>
-                </a>
-            </div>
-        {% endif %}
-    </main>
-</body>
-</html>
+{% block header %}
+  Delete Recipe
+{% endblock %}
+
+{% block content %}
+  {% if recipe %}
+    <div class="delete-confirmation">
+      <input class="field" type="text" value="{{ recipe.name }}" readonly />
+      
+      <div class="delete-actions">
+        <form method="POST" class="delete-form">
+          <button type="submit" class="btn">Delete Dish</button>
+        </form>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </div>
+  {% else %}
+    <div class="error-message">
+      <p>Recipe not found.</p>
+      <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+    </div>
+  {% endif %}
+{% endblock %}

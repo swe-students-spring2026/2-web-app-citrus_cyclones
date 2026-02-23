@@ -1,3 +1,7 @@
+/* =====================================================
+   LET THEM COOK - Mobile-First Unified Styles
+   ===================================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -5,18 +9,56 @@
 }
 
 body {
-  font-family: Inter, sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: white;
   color: black;
+  line-height: 1.4;
 }
+
+/* =====================================================
+   HEADER & NAVIGATION
+   ===================================================== */
 
 .screen-header {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 40px;
-  margin-top: 60px;
+  height: 50px;
+  margin-top: 20px;
+  padding: 0 16px;
+}
+
+.hamburger-menu {
+  position: absolute;
+  left: 16px;
+  width: 28px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.hamburger-bar {
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-color: #000;
+  border-radius: 2px;
+}
+
+.hamburger-spacer {
+  width: 28px;
+}
+
+.screen-title {
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center;
 }
 
 /* Hamburger menu overlay */
@@ -28,7 +70,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 40px;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.2s, opacity 0.2s;
@@ -43,11 +85,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
+  width: 100%;
+  padding: 0 16px;
 }
 
 .nav-panel-title {
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 500;
   margin-bottom: 16px;
 }
@@ -55,70 +99,525 @@ body {
 .nav-link {
   color: black;
   text-decoration: underline;
-  font-size: 22px;
+  font-size: 20px;
+  padding: 8px 0;
 }
 
 .nav-link:hover {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-.hamburger-menu {
-  position: absolute;
-  left: 16px;
-  font-size: 38px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.screen-title {
-  font-size: 40px;
-  font-weight: 500;
-}
+/* =====================================================
+   MAIN CONTENT AREA
+   ===================================================== */
 
 .screen-content {
   margin: 0 auto;
-  padding: 30px;
+  padding: 20px 16px;
+  max-width: 500px;
 }
+
+.container {
+  margin: 0 auto;
+  padding: 20px 16px;
+  max-width: 500px;
+}
+
+/* =====================================================
+   FORMS - Login, Signup, Create Recipe, etc.
+   ===================================================== */
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 16px;
 }
 
-/* inputs */
 .field {
-  height: 60px;
-  border: 1px solid #111;
-  padding: 0 16px;
-  font-size: 18px;
+  height: 50px;
+  border: 1px solid #000;
+  padding: 0 14px;
+  font-size: 16px;
   outline: none;
+  width: 100%;
+  background: white;
+}
+
+.field:focus {
+  border-width: 2px;
 }
 
 .field::placeholder {
-  color: rgb(97, 97, 97)
+  color: #666;
 }
 
+textarea.field {
+  height: auto;
+  min-height: 100px;
+  padding: 14px;
+  resize: vertical;
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+
 .btn {
-  height: 74px;
+  height: 50px;
   background: #000;
   color: #fff;
-  font-size: 22px;
-  border: none;
+  font-size: 18px;
+  border: 1px solid #000;
   cursor: pointer;
   text-decoration: underline;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  font-family: inherit;
 }
 
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.btn-danger {
+  background: #000;
+  color: #fff;
+}
+
+.button-background {
+  height: 50px;
+  border: 1px solid #000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 100%;
+}
+
+.button-text {
+  color: #fff;
+  text-align: center;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.button-secondary {
+  background: #fff !important;
+}
+
+.button-secondary .button-text {
+  color: #000;
+}
+
+.button-danger {
+  background: #000 !important;
+}
+
+/* =====================================================
+   FORM FOOTER (Login/Signup links)
+   ===================================================== */
+
 .form-footer {
-  margin: 0;
-  font-size: 18px;
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  text-align: center;
 }
 
 .form-footer a {
   color: #000;
   text-decoration: underline;
+}
+
+/* =====================================================
+   RECIPE CARDS (Home, Search Results, Profile)
+   ===================================================== */
+
+.recipes-list {
+  margin-top: 20px;
+}
+
+.recipes-list h2,
+.section-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.recipe-cards {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recipe-card {
+  border: 1px solid #000;
+  padding: 16px;
+  background: white;
+}
+
+.recipe-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.recipe-card-info {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.recipe-card-info span {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.recipe-card p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.recipe-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* =====================================================
+   RECIPE FORM (Add/Edit Recipe)
+   ===================================================== */
+
+.recipe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+
+.form-group .hint {
+  font-weight: 400;
+  color: #666;
+  font-size: 12px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+  height: 50px;
+  border: 1px solid #000;
+  padding: 0 14px;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+  background: white;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-width: 2px;
+}
+
+.form-group textarea {
+  height: auto;
+  min-height: 100px;
+  padding: 14px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* =====================================================
+   SEARCH PAGE
+   ===================================================== */
+
+.search-section {
+  margin-bottom: 20px;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-input {
+  height: 50px;
+  border: 1px solid #000;
+  padding: 0 14px;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+}
+
+.search-input:focus {
+  border-width: 2px;
+}
+
+.search-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: #333;
+}
+
+.search-results {
+  margin-top: 20px;
+}
+
+.search-results h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.no-results,
+.search-prompt {
+  text-align: center;
+  padding: 24px 16px;
+  border: 1px solid #000;
+  color: #333;
+}
+
+.back-link {
+  margin-top: 20px;
+}
+
+/* =====================================================
+   DELETE CONFIRMATION PAGE
+   ===================================================== */
+
+.delete-confirmation {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.delete-confirmation h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.recipe-name-highlight {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin: 12px 0;
+  padding: 16px;
+  border: 1px solid #000;
+}
+
+.warning-text {
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.delete-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.delete-form {
+  width: 100%;
+}
+
+/* =====================================================
+   RECIPE DETAIL PAGE (View Dish)
+   ===================================================== */
+
+.recipe-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recipe-detail h2 {
+  font-size: 20px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #000;
+}
+
+.recipe-detail section {
+  margin-bottom: 8px;
+}
+
+.recipe-detail h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.recipe-detail ul,
+.recipe-detail ol {
+  padding-left: 20px;
+}
+
+.recipe-detail li {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.recipe-detail p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Rating section */
+.rating-section {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #000;
+}
+
+.rating-section label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.rating-input {
+  height: 50px;
+  border: 1px solid #000;
+  padding: 0 14px;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* =====================================================
+   PROFILE PAGE
+   ===================================================== */
+
+.profile-section {
+  margin-bottom: 24px;
+}
+
+.profile-section h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.profile-username {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* =====================================================
+   ERROR & EMPTY STATES
+   ===================================================== */
+
+.error-message {
+  text-align: center;
+  padding: 24px 16px;
+  border: 1px solid #000;
+}
+
+.error-message p {
+  margin-bottom: 16px;
+}
+
+.no-recipes {
+  text-align: center;
+  padding: 24px 16px;
+  border: 1px solid #000;
+  color: #333;
+}
+
+/* =====================================================
+   UTILITY CLASSES
+   ===================================================== */
+
+.text-center {
+  text-align: center;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+/* Welcome message */
+.welcome-message {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+/* Error text */
+.error-text {
+  color: #dc3545;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid #dc3545;
+  text-align: center;
+}
+
+/* Search filters layout */
+.search-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Readonly input styling */
+input[readonly],
+textarea[readonly] {
+  background-color: #f8f8f8;
+  cursor: default;
 }

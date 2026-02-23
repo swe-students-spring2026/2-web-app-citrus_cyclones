@@ -241,9 +241,32 @@ def home():
     return render_template("home.html", recipes=recipes)
 
 
-@app.route("/create-recipe")
+@app.route("/create-recipe", methods=["GET", "POST"])
 @login_required
 def create_recipe():
+    """Create a new recipe."""
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        ingredients_raw = request.form.get("ingredients", "")
+        prep_time = request.form.get("prep_time", "")
+        instructions_raw = request.form.get("instructions", "")
+
+        # Parse ingredients (comma separated)
+        ingredients = [i.strip() for i in ingredients_raw.split(",") if i.strip()]
+        # Parse instructions (newline separated)
+        instructions = [i.strip() for i in instructions_raw.split("\n") if i.strip()]
+
+        if name:
+            recipes_collection.insert_one(
+                {
+                    "name": name,
+                    "ingredients": ingredients,
+                    "prep_time": int(prep_time) if prep_time else None,
+                    "instructions": instructions,
+                }
+            )
+        return redirect(url_for("home"))
+
     return render_template("create_recipe.html")
 
 

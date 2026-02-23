@@ -1,54 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Recipe</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/screen-header.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
-</head>
-<body>
-    <header class="screen-header">
-        <a href="{{ url_for('home') }}" class="hamburger-menu">
-            <div class="hamburger-bar"></div>
-            <div class="hamburger-bar"></div>
-            <div class="hamburger-bar"></div>
-        </a>
-        <h1 class="screen-title">Add Recipe</h1>
-        <div class="hamburger-spacer"></div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="container">
-        <form method="POST" class="recipe-form">
-            <div class="form-group">
-                <label for="name">Recipe Name</label>
-                <input type="text" id="name" name="name" placeholder="e.g. Spaghetti Bolognese" required>
-            </div>
+{% block header %}
+  Add Recipe
+{% endblock %}
 
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="3" placeholder="A short description of the dish..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="ingredients">Ingredients <span class="hint">(one per line)</span></label>
-                <textarea id="ingredients" name="ingredients" rows="6" placeholder="400g spaghetti&#10;500g ground beef&#10;1 can crushed tomatoes"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="instructions">Instructions <span class="hint">(one step per line)</span></label>
-                <textarea id="instructions" name="instructions" rows="6" placeholder="Boil spaghetti in salted water&#10;Heat olive oil and saute onion&#10;Add ground beef and brown"></textarea>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="button-background">
-                    <span class="button-text">Save Recipe</span>
-                </button>
-                <a href="{{ url_for('home') }}" class="button-background button-secondary">
-                    <span class="button-text">Cancel</span>
-                </a>
-            </div>
-        </form>
-    </main>
-</body>
-</html>
+{% block content %}
+  <form class="form" method="POST">
+    <input class="field" type="text" name="name" placeholder="Dish title" required />
+    <input class="field" type="text" name="ingredients" placeholder="Ingredients (comma separated)" />
+    <input class="field" type="number" name="prep_time" placeholder="Preparation time (minutes)" />
+    <textarea class="field" name="instructions" placeholder="Instructions (one step per line)" rows="6"></textarea>
+    
+    <button type="submit" class="btn">Share Dish</button>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

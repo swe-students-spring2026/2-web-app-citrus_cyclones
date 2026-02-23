@@ -6,39 +6,71 @@
 
 {% block content %}
   <section class="search-section">
-    <form method="POST" class="search-form">
-      <div class="search-input-group">
+    <form method="POST" class="form">
+      <input 
+        class="field"
+        type="text" 
+        name="query" 
+        placeholder="Search arena" 
+        value="{{ query }}"
+      />
+      
+      <div class="search-filters">
         <input 
+          class="field"
+          type="number" 
+          name="min_time" 
+          placeholder="Min time (minutes)"
+          value="{{ min_time }}"
+        />
+        <input 
+          class="field"
+          type="number" 
+          name="max_time" 
+          placeholder="Max time (minutes)"
+          value="{{ max_time }}"
+        />
+        <input 
+          class="field"
           type="text" 
-          name="query" 
-          placeholder="Search recipes by name..." 
-          value="{{ query }}"
-          class="search-input"
-          autofocus
-        >
-        <button type="submit" class="button-background search-button">
-          <span class="button-text">Search</span>
-        </button>
+          name="include_ingredients" 
+          placeholder="Ingredients to include"
+          value="{{ include_ingredients }}"
+        />
+        <input 
+          class="field"
+          type="text" 
+          name="exclude_ingredients" 
+          placeholder="Ingredients to exclude"
+          value="{{ exclude_ingredients }}"
+        />
       </div>
+
+      <button type="submit" class="btn">Search</button>
     </form>
   </section>
 
   <section class="search-results">
     {% if results %}
-      <h2>Search Results ({{ results|length }} found)</h2>
+      <h2 class="section-title">Search Results</h2>
       <ul class="recipe-cards">
       {% for recipe in results %}
         <li class="recipe-card">
           <h3>{{ recipe.name }}</h3>
-          {% if recipe.description %}
-            <p>{{ recipe.description[:100] }}{% if recipe.description|length > 100 %}...{% endif %}</p>
-          {% endif %}
+          <div class="recipe-card-info">
+            {% if recipe.ingredients %}
+              <span><strong>Ingredients:</strong> {{ recipe.ingredients[:4]|join(', ') }}{% if recipe.ingredients|length > 4 %}...{% endif %}</span>
+            {% endif %}
+            {% if recipe.prep_time %}
+              <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
+            {% endif %}
+            {% if recipe.rating %}
+              <span><strong>Rating:</strong> {{ recipe.rating }} Stars</span>
+            {% endif %}
+          </div>
           <div class="recipe-actions">
             <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}" class="button-background">
-              <span class="button-text">View</span>
-            </a>
-            <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}" class="button-background button-danger">
-              <span class="button-text">Delete</span>
+              <span class="button-text">View Dish</span>
             </a>
           </div>
         </li>
@@ -47,18 +79,7 @@
     {% elif query %}
       <div class="no-results">
         <p>No recipes found for "{{ query }}"</p>
-        <p>Try a different search term.</p>
-      </div>
-    {% else %}
-      <div class="search-prompt">
-        <p>Enter a recipe name to search.</p>
       </div>
     {% endif %}
   </section>
-
-  <div class="back-link">
-    <a href="{{ url_for('home') }}" class="button-background">
-      <span class="button-text">Back to Home</span>
-    </a>
-  </div>
 {% endblock %}
