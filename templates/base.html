@@ -2,63 +2,27 @@
 <html>
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/screen-header.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <title>Let Them Cook</title>
   </head>
   <body>
-    {% if current_user.is_authenticated %}
-    <div class="nav-overlay" id="navOverlay" aria-hidden="true">
-      <nav class="nav-panel">
-        <h2 class="nav-panel-title">Let Them Cook</h2>
-        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-        <a class="nav-link" href="{{ url_for('create_recipe') }}">Create Recipe</a>
-        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
-        <a class="nav-link" href="{{ url_for('search') }}">Search</a>
-        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-      </nav>
-    </div>
-    {% endif %}
     <header class="screen-header">
       {% if current_user.is_authenticated %}
-        <button type="button" class="hamburger-menu" id="hamburgerBtn" aria-label="Open menu">
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-        </button>
+        <a href="{{ url_for('menu') }}" class="hamburger-menu" aria-label="Open menu">
+          <div class="hamburger-bar"></div>
+          <div class="hamburger-bar"></div>
+          <div class="hamburger-bar"></div>
+        </a>
       {% endif %}
       <h1 class="screen-title">{% block header %}Let Them Cook{% endblock %}</h1>
+      {% if current_user.is_authenticated %}
+        <div class="hamburger-spacer"></div>
+      {% endif %}
     </header>
     <main class="screen-content">
       {% block content %}{% endblock %}
     </main>
-    {% if current_user.is_authenticated %}
-    <script>
-      (function () {
-        var overlay = document.getElementById("navOverlay");
-        var btn = document.getElementById("hamburgerBtn");
-        if (!overlay || !btn) return;
-        function openMenu() {
-          overlay.classList.add("is-open");
-          overlay.setAttribute("aria-hidden", "false");
-        }
-        function closeMenu() {
-          overlay.classList.remove("is-open");
-          overlay.setAttribute("aria-hidden", "true");
-        }
-        function toggleMenu() {
-          if (overlay.classList.contains("is-open")) closeMenu();
-          else openMenu();
-        }
-        btn.addEventListener("click", toggleMenu);
-        overlay.addEventListener("click", function (e) {
-          if (e.target === overlay) closeMenu();
-        });
-        overlay.querySelectorAll(".nav-link").forEach(function (link) {
-          link.addEventListener("click", closeMenu);
-        });
-      })();
-    </script>
-    {% endif %}
   </body>
 </html>

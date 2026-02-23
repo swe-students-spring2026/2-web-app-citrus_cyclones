@@ -17,70 +17,10 @@ body {
 
 /* =====================================================
    HEADER & NAVIGATION
+   (Main header styles are in screen-header.css from header branch)
    ===================================================== */
 
-.screen-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: 50px;
-  margin-top: 20px;
-  padding: 0 16px;
-}
-
-.hamburger-menu {
-  position: absolute;
-  left: 16px;
-  width: 28px;
-  height: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0;
-}
-
-.hamburger-bar {
-  display: block;
-  width: 100%;
-  height: 4px;
-  background-color: #000;
-  border-radius: 2px;
-}
-
-.hamburger-spacer {
-  width: 28px;
-}
-
-.screen-title {
-  font-size: 24px;
-  font-weight: 500;
-  text-align: center;
-}
-
-/* Hamburger menu overlay */
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  background: white;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 40px;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0.2s, opacity 0.2s;
-}
-
-.nav-overlay.is-open {
-  visibility: visible;
-  opacity: 1;
-}
-
+/* Navigation panel for menu page */
 .nav-panel {
   display: flex;
   flex-direction: column;
@@ -88,12 +28,7 @@ body {
   gap: 20px;
   width: 100%;
   padding: 0 16px;
-}
-
-.nav-panel-title {
-  font-size: 28px;
-  font-weight: 500;
-  margin-bottom: 16px;
+  margin-top: 40px;
 }
 
 .nav-link {

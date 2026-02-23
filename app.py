@@ -242,6 +242,13 @@ def home():
     return render_template("home.html", recipes=recipes)
 
 
+@app.route("/menu")
+@login_required
+def menu():
+    """Display navigation menu page."""
+    return render_template("menu.html")
+
+
 @app.route("/create-recipe", methods=["GET", "POST"])
 @login_required
 def create_recipe():
