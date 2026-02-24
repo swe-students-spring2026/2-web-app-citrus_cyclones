@@ -13,11 +13,11 @@ User Stories: [GitHub Issues Page](https://github.com/swe-students-spring2026/2-
 ## Steps necessary to run the software
 
 1. Clone the repository and open it in VS Code.
-2. Create and activate a virtual environment:
-	- Windows PowerShell: `python -m venv .venv` then `.\.venv\Scripts\Activate.ps1`
-	- MacOS: `python -m venv venv` then `source venv/bin/activate`
-3. Install dependencies:
-	- `pip install flask pymongo python-dotenv flask-login mongomock`
+2. Install pipenv (if not already installed):
+	- `pip install pipenv`
+3. Activate the virtual environment and install dependencies:
+	- `pipenv shell`
+	- `pipenv install`
 4. Create `.env` from `env.example`.
 5. For a guaranteed local demo (no MongoDB required), set in `.env`:
 	- `DEMO_MODE=true`
@@ -25,9 +25,8 @@ User Stories: [GitHub Issues Page](https://github.com/swe-students-spring2026/2-
 	- `python app.py`
 7. Open:
 	- `http://127.0.0.1:5000`
-8. Deactivate the virtual environment when done:
-	- Windows Powershell: `deactivate`
-	- MacOS: `deactivate`
+8. Exit the virtual environment when done:
+	- `exit`
 
 Notes:
 - If you want to use a real MongoDB database, set `DEMO_MODE=false` and provide a valid `MONGO_URI`.
