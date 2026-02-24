@@ -343,6 +343,7 @@ def edit_recipe(recipe_id):
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         description = request.form.get("description", "").strip()
+        prep_time = request.form.get("prep_time", "").strip()
         ingredients_raw = request.form.get("ingredients", "")
         instructions_raw = request.form.get("instructions", "")
 
@@ -355,6 +356,7 @@ def edit_recipe(recipe_id):
                 "$set": {
                     "name": name,
                     "description": description,
+                    "prep_time": prep_time,
                     "ingredients": ingredients,
                     "instructions": instructions,
                 }
