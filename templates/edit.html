@@ -7,26 +7,19 @@
 {% block content %}
   {% if recipe %}
     <form class="form" method="POST">
-      <input class="field" type="text" name="name" placeholder="Dish title" value="{{ recipe.name }}" required />
-      
-      <input class="field" type="text" name="new_dish_title" placeholder="New Dish Title" />
-      
-      <input class="field" type="text" name="ingredients" placeholder="Ingredients" value="{% for item in recipe.ingredients %}{{ item }}{% if not loop.last %}, {% endif %}{% endfor %}" />
-      
-      <input class="field" type="number" name="prep_time" placeholder="Preparation time" value="{{ recipe.prep_time }}" />
-      
-      <input class="field" type="number" name="max_time" placeholder="Max time (minutes)" value="{{ recipe.max_time }}" />
-      
-      <input class="field" type="text" name="ingredients_include" placeholder="Ingredients to include" />
-      
-      <input class="field" type="text" name="ingredients_exclude" placeholder="Ingredients to exclude" />
-      
-      <textarea class="field" name="instructions" placeholder="Instructions" rows="6">{% for step in recipe.instructions %}{{ step }}{% if not loop.last %}
-{% endif %}{% endfor %}</textarea>
-      
-      <textarea class="field" name="new_instructions" placeholder="New instructions" rows="6"></textarea>
-      
-      <button type="submit" class="btn">Edit Dish</button>
+      <input class="field" name="name" placeholder="Dish title" value="{{ recipe.name }}" required />
+
+      <textarea class="field" name="description" rows="6" placeholder="Description">{{ recipe.description }}</textarea>      
+
+      <input class="field" type="number" name="prep_time" placeholder="Preparation time (minutes)" value="{{ recipe.prep_time }}"/>
+ 
+      <textarea class="field" name="ingredients" rows="6">{% for item in recipe.ingredients %}{{ item }}
+{% if not loop.last %}{% endif %}{% endfor %}</textarea>
+
+      <textarea class="field" name="instructions" placeholder="Instructions" rows="6">{% for step in recipe.instructions %}{{ step }}
+{% if not loop.last %}{% endif %}{% endfor %}</textarea>
+            
+      <button type="submit" class="btn">Submit Edits</button>
       <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
     </form>
   {% else %}
