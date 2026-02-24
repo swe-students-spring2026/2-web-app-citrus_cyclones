@@ -337,7 +337,7 @@ def add_recipe():
 def edit_recipe(recipe_id):
     """Edit an existing recipe."""
     recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
-    if not recipe:
+    if not recipe or recipe.get("author_id") != current_user.id:
         return redirect(url_for("home"))
 
     if request.method == "POST":
@@ -372,6 +372,8 @@ def edit_recipe(recipe_id):
 def delete_recipe(recipe_id):
     """Delete a recipe – shows confirmation page on GET, deletes on POST."""
     recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+    if not recipe or recipe.get("author_id") != current_user.id:
+        return redirect(url_for("home"))
 
     if request.method == "POST":
         recipes_collection.delete_one({"_id": ObjectId(recipe_id)})
