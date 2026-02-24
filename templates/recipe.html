@@ -19,8 +19,8 @@
         <input class="field" type="text" value="Time to Cook: {{ recipe.prep_time }} minutes" readonly />
       {% endif %}
 
-      {% if recipe.rating %}
-        <input class="field" type="text" value="Rating: {{ recipe.rating }} Stars" readonly />
+      {% if recipe.avg_rating %}
+        <input class="field" type="text" value="Avg Rating: {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)" readonly />
       {% endif %}
       
       {% if recipe.instructions %}
@@ -28,9 +28,20 @@
 {% endif %}{% endfor %}</textarea>
       {% endif %}
       
-      <div class="rating-section">
-        <input class="field" type="number" name="rating" placeholder="Rate dish" min="1" max="5" />
-      </div>
+<div class="rating-section">
+  <form method="POST" action="{{ url_for('rate_recipe', recipe_id=recipe._id) }}">
+    <label><strong>Rate this dish:</strong></label>
+    <input class="field" type="number" name="rating" 
+      min="1" max="5" 
+      value="{{ recipe.ratings[current_user.id|string] if recipe.ratings and current_user.id|string in recipe.ratings else '' }}"
+      placeholder="1-5" required />
+    <button type="submit" class="button-background">
+      <span class="button-text">
+        {{ 'Edit Rating' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Rating' }}
+      </span>
+    </button>
+  </form>
+</div>
       
       <div class="recipe-actions">
         <a href="{{ url_for('home') }}" class="button-background">
