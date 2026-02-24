@@ -46,15 +46,12 @@ body {
    MAIN CONTENT AREA
    ===================================================== */
 
-.screen-content {
-  margin: 0 auto;
-  padding: 20px 16px;
-  max-width: 500px;
-}
-
+.screen-content,
 .container {
   margin: 0 auto;
-  padding: 20px 16px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 60px;
   max-width: 500px;
 }
 
