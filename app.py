@@ -385,20 +385,45 @@ def delete_recipe(recipe_id):
 @app.route("/search", methods=["GET", "POST"])
 @login_required
 def search():
-    """Search for recipes by name."""
     results = []
     query = ""
+    include_ingredients = ""
+    exclude_ingredients = ""
 
     if request.method == "POST":
-        query = request.form.get("query", "")
-        # Search by recipe name (case-insensitive)
-        results = list(
-            recipes_collection.find(
-                {"name": {"$regex": query, "$options": "i"}}
-            )
-        )
+        query = request.form.get("query", "").strip()
+        include_ingredients = request.form.get("include_ingredients", "").strip()
+        exclude_ingredients = request.form.get("exclude_ingredients", "").strip()
 
-    return render_template("search.html", results=results, query=query)
+        filters = {}
+
+        # Name search
+        if query:
+            filters["name"] = {"$regex": query, "$options": "i"}
+
+        # Include ingredients filter
+        if include_ingredients:
+            include_list = [i.strip() for i in include_ingredients.split(",") if i.strip()]
+            filters["ingredients"] = {
+                "$all": [{"$elemMatch": {"$regex": term, "$options": "i"}} for term in include_list]
+            }
+
+        results = list(recipes_collection.find(filters))
+
+        # Exclude ingredients
+        if exclude_ingredients:
+            exclude_list = [e.strip().lower() for e in exclude_ingredients.split(",") if e.strip()]
+            results = [
+                r for r in results
+                if not any(
+                    any(excl in ing.lower() for excl in exclude_list)
+                    for ing in r.get("ingredients", [])
+                )
+            ]
+
+    return render_template("search.html", results=results, query=query,
+                           include_ingredients=include_ingredients,
+                           exclude_ingredients=exclude_ingredients)
 
 @app.route("/save/<recipe_id>", methods=["POST"])
 @login_required

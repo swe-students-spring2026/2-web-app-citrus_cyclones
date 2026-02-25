@@ -18,20 +18,6 @@
       <div class="search-filters">
         <input 
           class="field"
-          type="number" 
-          name="min_time" 
-          placeholder="Min time (minutes)"
-          value="{{ min_time }}"
-        />
-        <input 
-          class="field"
-          type="number" 
-          name="max_time" 
-          placeholder="Max time (minutes)"
-          value="{{ max_time }}"
-        />
-        <input 
-          class="field"
           type="text" 
           name="include_ingredients" 
           placeholder="Ingredients to include"
@@ -64,8 +50,10 @@
             {% if recipe.prep_time %}
               <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
             {% endif %}
-            {% if recipe.rating %}
-              <span><strong>Rating:</strong> {{ recipe.rating }} Stars</span>
+            {% if recipe.avg_rating %}
+              <span><strong>Rating:</strong> {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)</span>
+            {% else %}
+              <span><strong>Rating:</strong> Not yet rated</span>
             {% endif %}
           </div>
           <div class="recipe-actions">
@@ -76,7 +64,7 @@
         </li>
       {% endfor %}
       </ul>
-    {% elif query %}
+    {% elif query or include_ingredients or exclude_ingredients %}
       <div class="no-results">
         <p>No recipes found for "{{ query }}"</p>
       </div>
