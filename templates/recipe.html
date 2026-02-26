@@ -49,8 +49,8 @@
         </a>
         
         <!-- show the view profile button iff this is not the current user's post -->
-        {% if recipe.author_id != current_user.id}
-        <a href="{{ url_for('recipe/{{ user.id }}') }}" class="button-background">
+        {% if recipe.author_id != current_user.id %}
+        <a href="{{ url_for('profile', param=user_id) }}" class="button-background">
           <span class="button-text">View {{ user.id }}'s Profile' </span>
         </a>
         {% endif % }
