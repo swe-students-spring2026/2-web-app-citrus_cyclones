@@ -169,13 +169,33 @@ def profile():
 
     return render_template("profile.html", saved_recipes=saved_recipes, user_recipes=user_recipes)
 
+@app.route("/profile/<user_id>")
+@login_required
+def view_user_profile(user_id):
+    """ Display another user's profile"""
+    user = db.users.find_one({"_id": ObjectId(user_id)})
+    saved_ids = user.get("saved_recipes", [])
+    saved_recipes = list(
+        recipes_collection.find({"_id": {"$in": saved_ids}})
+    )
+    user_recipes = list(
+        recipes_collection.find({"author_id": user["_id"]})
+    )
+    return render_template("user_profile.html", user=user, saved_recipes=saved_recipes, user_recipes=user_recipes)
+
 
 @app.route("/recipe/<recipe_id>")
 @login_required
 def view_recipe(recipe_id):
     """View a single recipe's details."""
+    ## Get the recipe object from database
     recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
-    return render_template("recipe.html", recipe=recipe)
+
+    ## Get the original poster's object from database
+    ## work backwards from recipe
+    ## recipe is a dictionary so must use [""]
+    user = db.users.find_one({"_id": recipe["author_id"]})
+    return render_template("recipe.html", recipe=recipe, user=user)
 
 
 @app.route("/add", methods=["GET", "POST"])
