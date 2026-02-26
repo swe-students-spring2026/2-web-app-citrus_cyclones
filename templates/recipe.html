@@ -9,6 +9,12 @@
     <div class="recipe-detail">
       <input class="field" type="text" value="{{ recipe.name }}" readonly />
       
+      {% if recipe.description %}
+        <div class="recipe-card-info">
+          <span><strong>Description:</strong> {{ recipe.description }}</span>
+        </div>
+      {% endif %}
+      
       {% if recipe.ingredients %}
         <div class="recipe-card-info">
           <span><strong>Ingredients:</strong> {{ recipe.ingredients|join(', ') }}</span>
