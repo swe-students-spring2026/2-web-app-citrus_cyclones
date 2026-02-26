@@ -169,7 +169,7 @@ def profile():
 
     return render_template("profile.html", saved_recipes=saved_recipes, user_recipes=user_recipes)
 
-@app.route("/profile/<recipe_id>")
+@app.route("/profile/<user_id>")
 @login_required
 def view_recipe(user_id):
     """ Display another user's profile"""
@@ -188,8 +188,13 @@ def view_recipe(user_id):
 @login_required
 def view_recipe(recipe_id):
     """View a single recipe's details."""
+    ## Get the recipe object from database
     recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
-    return render_template("recipe.html", recipe=recipe)
+
+    ## Get the original poster's object from database
+    ## work backwards from recipe
+    user = db.users.fine_one({"_id": recipe.author_id})
+    return render_template("recipe.html", recipe=recipe, user=user)
 
 
 @app.route("/add", methods=["GET", "POST"])
