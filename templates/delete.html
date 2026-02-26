@@ -8,10 +8,9 @@
   {% if recipe %}
     <div class="delete-confirmation">
       <input class="field" type="text" value="{{ recipe.name }}" readonly />
-      
       <div class="delete-actions">
         <form method="POST" class="delete-form">
-          <button type="submit" class="btn">Delete Dish</button>
+          <button type="submit" class="delete_button">Delete Dish</button>
         </form>
         <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
       </div>
