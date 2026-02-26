@@ -169,6 +169,20 @@ def profile():
 
     return render_template("profile.html", saved_recipes=saved_recipes, user_recipes=user_recipes)
 
+@app.route("/profile/<recipe_id>")
+@login_required
+def view_recipe(user_id):
+    """ Display another user's profile"""
+    user = db.users.find_one({"_id": ObjectId(user_id)})
+    saved_ids = user.get("saved_recipes", [])
+    saved_recipes = list(
+        recipes_collection.find({"_id": {"$in": saved_ids}})
+    )
+    user_recipes = list(
+        recipes_collection.find({"author_id": user.id})
+    )
+    return render_template("user_profile.html", user=user, saved_recipes=saved_recipes, user_recipes=user_recipes)
+
 
 @app.route("/recipe/<recipe_id>")
 @login_required
