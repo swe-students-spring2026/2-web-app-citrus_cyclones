@@ -7,12 +7,35 @@ from flask_login import (
 )
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
+from pymongo import MongoClient
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "dev" # change this to an environment variable later
+
+# ---------------------------------------------------------------------------
+# MongoDB connection. Set MONGO_URI in .env.
+# ---------------------------------------------------------------------------
+mongo_uri = os.getenv("MONGO_URI")
+mongo_dbname = os.getenv("MONGO_DBNAME", "let_them_cook")
+if not mongo_uri:
+    raise RuntimeError("MONGO_URI must be set in .env to connect to MongoDB.")
+client = MongoClient(
+    mongo_uri,
+    serverSelectionTimeoutMS=3000,
+    connectTimeoutMS=3000,
+    socketTimeoutMS=5000,
+)
+client.server_info() # force connection check
+db = client[mongo_dbname]
+print(" * Connected to MongoDB successfully.")
+recipes_collection = db.recipes
+
+# ---------------------------------------------------------------------------
+# Flask login setup
+# ---------------------------------------------------------------------------
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -80,155 +103,6 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for("login"))
-
-
-def _is_truthy(value):
-    return str(value).strip().lower() in {"1", "true", "yes", "on"}
-
-# ---------------------------------------------------------------------------
-# MongoDB connection with timeout fallback
-# If the remote MongoDB Atlas cluster is unreachable (timeout), we fall back
-# to an in-memory database powered by mongomock so the app runs locally.
-# ---------------------------------------------------------------------------
-SAMPLE_RECIPES = [
-    {
-        "name": "Spaghetti Bolognese",
-        "description": "Classic Italian pasta with a rich and savory meat sauce. A family favorite that is easy to make and always delicious.",
-        "ingredients": [
-            "400g spaghetti", "500g ground beef", "1 can crushed tomatoes",
-            "1 onion diced", "3 cloves garlic minced", "2 tbsp olive oil",
-            "Salt and pepper to taste", "Fresh basil",
-        ],
-        "instructions": [
-            "Boil spaghetti in salted water until al dente",
-            "Heat olive oil and saute onion and garlic",
-            "Add ground beef and brown",
-            "Pour in crushed tomatoes and simmer for 20 min",
-            "Season with salt, pepper, and basil",
-            "Serve sauce over spaghetti",
-        ],
-    },
-    {
-        "name": "Chicken Stir Fry",
-        "description": "Quick and healthy chicken stir fry with colorful vegetables and a savory soy-ginger sauce.",
-        "ingredients": [
-            "2 chicken breasts sliced", "1 bell pepper", "1 cup broccoli",
-            "2 carrots sliced", "3 tbsp soy sauce", "1 tbsp ginger grated",
-            "2 tbsp sesame oil", "Rice for serving",
-        ],
-        "instructions": [
-            "Slice chicken and vegetables",
-            "Heat sesame oil in a wok over high heat",
-            "Cook chicken until golden",
-            "Add vegetables and stir fry 3-4 minutes",
-            "Pour soy sauce and ginger, toss to coat",
-            "Serve over steamed rice",
-        ],
-    },
-    {
-        "name": "Chocolate Chip Cookies",
-        "description": "Soft and chewy chocolate chip cookies that are perfect for dessert or a snack.",
-        "ingredients": [
-            "2 1/4 cups flour", "1 cup butter softened", "3/4 cup sugar",
-            "3/4 cup brown sugar", "2 eggs", "1 tsp vanilla extract",
-            "1 tsp baking soda", "2 cups chocolate chips",
-        ],
-        "instructions": [
-            "Preheat oven to 375F",
-            "Cream butter and sugars together",
-            "Beat in eggs and vanilla",
-            "Mix in flour and baking soda",
-            "Fold in chocolate chips",
-            "Drop spoonfuls onto baking sheet",
-            "Bake 9-11 minutes until golden",
-        ],
-    },
-    {
-        "name": "Caesar Salad",
-        "description": "Crisp romaine lettuce with creamy Caesar dressing, croutons, and parmesan cheese.",
-        "ingredients": [
-            "1 head romaine lettuce", "1/2 cup Caesar dressing",
-            "1 cup croutons", "1/4 cup grated parmesan",
-            "1 lemon juiced", "Salt and pepper",
-        ],
-        "instructions": [
-            "Wash and chop romaine lettuce",
-            "Toss lettuce with Caesar dressing",
-            "Add croutons and parmesan",
-            "Squeeze lemon juice over salad",
-            "Season with salt and pepper",
-            "Serve immediately",
-        ],
-    },
-    {
-        "name": "Banana Pancakes",
-        "description": "Fluffy banana pancakes that make for a perfect weekend breakfast.",
-        "ingredients": [
-            "2 ripe bananas", "2 eggs", "1 cup flour",
-            "1/2 cup milk", "1 tsp baking powder",
-            "1 tbsp sugar", "Butter for cooking", "Maple syrup",
-        ],
-        "instructions": [
-            "Mash bananas in a large bowl",
-            "Whisk in eggs and milk",
-            "Add flour, baking powder, and sugar; mix until smooth",
-            "Heat butter in a pan over medium heat",
-            "Pour batter and cook until bubbles form, then flip",
-            "Serve with maple syrup",
-        ],
-    },
-]
-
-
-def _connect_db():
-    """Use in-memory DB in demo mode; otherwise try MongoDB then fall back."""
-    mongo_uri = os.getenv("MONGO_URI", "")
-    mongo_dbname = os.getenv("MONGO_DBNAME", "let_them_cook")
-    demo_mode = _is_truthy(os.getenv("DEMO_MODE", "true"))
-
-    if demo_mode:
-        import mongomock
-
-        mock_client = mongomock.MongoClient()
-        db = mock_client[mongo_dbname]
-        if db.recipes.count_documents({}) == 0:
-            db.recipes.insert_many(SAMPLE_RECIPES)
-            print(f" * Demo mode enabled. Seeded {len(SAMPLE_RECIPES)} recipes in memory.")
-        return db
-
-    # --- attempt real MongoDB connection --------------------------------
-    if mongo_uri:
-        try:
-            from pymongo import MongoClient
-
-            client = MongoClient(
-                mongo_uri,
-                serverSelectionTimeoutMS=3000,
-                connectTimeoutMS=3000,
-                socketTimeoutMS=5000,
-            )
-            client.server_info()  # force connection check
-            db = client[mongo_dbname]
-            print(" * Connected to MongoDB Atlas successfully.")
-            return db
-        except Exception as exc:
-            print(f" * MongoDB unreachable ({exc}). Falling back to in-memory DB.")
-
-    # --- fallback: in-memory mongomock ----------------------------------
-    import mongomock
-
-    mock_client = mongomock.MongoClient()
-    db = mock_client[mongo_dbname]
-    # Seed sample data so there is something to show
-    if db.recipes.count_documents({}) == 0:
-        db.recipes.insert_many(SAMPLE_RECIPES)
-        print(f" * Seeded {len(SAMPLE_RECIPES)} sample recipes into in-memory DB.")
-    return db
-
-
-db = _connect_db()
-recipes_collection = db.recipes
-
 
 # -----------------------------------------------------------------------
 # Routes
