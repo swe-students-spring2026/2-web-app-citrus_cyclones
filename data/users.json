@@ -1,0 +1,9 @@
+[
+  {
+    "_id": "69a09634d4f2492ee7443429",
+    "email": "admin@example.com",
+    "username": "admin",
+    "password": "admin",
+    "saved_recipes": []
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Spaghetti Bolognese",
+    "description": "Classic Italian pasta with a rich and savory meat sauce. A family favorite that is easy to make and always delicious.",
+    "ingredients": [
+      "400g spaghetti",
+      "500g ground beef",
+      "1 can crushed tomatoes",
+      "1 onion diced",
+      "3 cloves garlic minced",
+      "2 tbsp olive oil",
+      "Salt and pepper to taste",
+      "Fresh basil"
+    ],
+    "instructions": [
+      "Boil spaghetti in salted water until al dente",
+      "Heat olive oil and saute onion and garlic",
+      "Add ground beef and brown",
+      "Pour in crushed tomatoes and simmer for 20 min",
+      "Season with salt, pepper, and basil",
+      "Serve sauce over spaghetti"
+    ],
+    "author_id": "69a09634d4f2492ee7443429"
+  },
+  {
+    "name": "Chicken Stir Fry",
+    "description": "Quick and healthy chicken stir fry with colorful vegetables and a savory soy-ginger sauce.",
+    "ingredients": [
+      "2 chicken breasts sliced",
+      "1 bell pepper",
+      "1 cup broccoli",
+      "2 carrots sliced",
+      "3 tbsp soy sauce",
+      "1 tbsp ginger grated",
+      "2 tbsp sesame oil",
+      "Rice for serving"
+    ],
+    "instructions": [
+      "Slice chicken and vegetables",
+      "Heat sesame oil in a wok over high heat",
+      "Cook chicken until golden",
+      "Add vegetables and stir fry 3-4 minutes",
+      "Pour soy sauce and ginger, toss to coat",
+      "Serve over steamed rice"
+    ],
+    "author_id": "69a09634d4f2492ee7443429"
+  },
+  {
+    "name": "Chocolate Chip Cookies",
+    "description": "Soft and chewy chocolate chip cookies that are perfect for dessert or a snack.",
+    "ingredients": [
+      "2 1/4 cups flour",
+      "1 cup butter softened",
+      "3/4 cup sugar",
+      "3/4 cup brown sugar",
+      "2 eggs",
+      "1 tsp vanilla extract",
+      "1 tsp baking soda",
+      "2 cups chocolate chips"
+    ],
+    "instructions": [
+      "Preheat oven to 375F",
+      "Cream butter and sugars together",
+      "Beat in eggs and vanilla",
+      "Mix in flour and baking soda",
+      "Fold in chocolate chips",
+      "Drop spoonfuls onto baking sheet",
+      "Bake 9-11 minutes until golden"
+    ],
+    "author_id": "69a09634d4f2492ee7443429"
+  },
+  {
+    "name": "Caesar Salad",
+    "description": "Crisp romaine lettuce with creamy Caesar dressing, croutons, and parmesan cheese.",
+    "ingredients": [
+      "1 head romaine lettuce",
+      "1/2 cup Caesar dressing",
+      "1 cup croutons",
+      "1/4 cup grated parmesan",
+      "1 lemon juiced",
+      "Salt and pepper"
+    ],
+    "instructions": [
+      "Wash and chop romaine lettuce",
+      "Toss lettuce with Caesar dressing",
+      "Add croutons and parmesan",
+      "Squeeze lemon juice over salad",
+      "Season with salt and pepper",
+      "Serve immediately"
+    ],
+    "author_id": "69a09634d4f2492ee7443429"
+  },
+  {
+    "name": "Banana Pancakes",
+    "description": "Fluffy banana pancakes that make for a perfect weekend breakfast.",
+    "ingredients": [
+      "2 ripe bananas",
+      "2 eggs",
+      "1 cup flour",
+      "1/2 cup milk",
+      "1 tsp baking powder",
+      "1 tbsp sugar",
+      "Butter for cooking",
+      "Maple syrup"
+    ],
+    "instructions": [
+      "Mash bananas in a large bowl",
+      "Whisk in eggs and milk",
+      "Add flour, baking powder, and sugar; mix until smooth",
+      "Heat butter in a pan over medium heat",
+      "Pour batter and cook until bubbles form, then flip",
+      "Serve with maple syrup"
+    ],
+    "author_id": "69a09634d4f2492ee7443429"
+  }
+]
