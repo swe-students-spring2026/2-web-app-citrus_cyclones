@@ -109,6 +109,23 @@ textarea.field {
   font-family: inherit;
 }
 
+/* delete button only for the delete recipe page*/ 
+.delete_button {
+  height: 50px;
+  background: #8c0000;
+  color: #fff;
+  font-size: 18px;
+  border: 1px solid #000;
+  cursor: pointer;
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-family: inherit;
+}
+
+.delete_button:hover,
 .btn:hover {
   opacity: 0.85;
 }
@@ -398,6 +415,7 @@ textarea.field {
 }
 
 .delete-form {
+  padding-top:10px;
   width: 100%;
 }
 
