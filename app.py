@@ -179,7 +179,7 @@ def view_user_profile(user_id):
         recipes_collection.find({"_id": {"$in": saved_ids}})
     )
     user_recipes = list(
-        recipes_collection.find({"author_id": user.id})
+        recipes_collection.find({"author_id": user["_id"]})
     )
     return render_template("user_profile.html", user=user, saved_recipes=saved_recipes, user_recipes=user_recipes)
 
