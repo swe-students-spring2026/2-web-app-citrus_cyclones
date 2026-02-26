@@ -129,6 +129,7 @@ def create_recipe():
     """Create a new recipe."""
     if request.method == "POST":
         name = request.form.get("name", "").strip()
+        description = request.form.get("description", "")
         ingredients_raw = request.form.get("ingredients", "")
         prep_time = request.form.get("prep_time", "")
         instructions_raw = request.form.get("instructions", "")
@@ -142,6 +143,7 @@ def create_recipe():
             recipes_collection.insert_one(
                 {
                     "name": name,
+                    "description": description,
                     "ingredients": ingredients,
                     "prep_time": int(prep_time) if prep_time else None,
                     "instructions": instructions,
