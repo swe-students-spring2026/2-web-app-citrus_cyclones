@@ -171,7 +171,7 @@ def profile():
 
 @app.route("/profile/<user_id>")
 @login_required
-def view_recipe(user_id):
+def view_user_profile(user_id):
     """ Display another user's profile"""
     user = db.users.find_one({"_id": ObjectId(user_id)})
     saved_ids = user.get("saved_recipes", [])
@@ -193,7 +193,8 @@ def view_recipe(recipe_id):
 
     ## Get the original poster's object from database
     ## work backwards from recipe
-    user = db.users.fine_one({"_id": recipe.author_id})
+    ## recipe is a dictionary so must use [""]
+    user = db.users.find_one({"_id": recipe["author_id"]})
     return render_template("recipe.html", recipe=recipe, user=user)
 
 
