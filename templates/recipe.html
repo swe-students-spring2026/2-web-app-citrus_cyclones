@@ -53,7 +53,7 @@
         <a href="{{ url_for('profile', param=user_id) }}" class="button-background">
           <span class="button-text">View {{ user.id }}'s Profile' </span>
         </a>
-        {% endif % }
+        {% endif %}
 
         {% if recipe.author_id == current_user.id %}
           <a href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}" class="button-background">
