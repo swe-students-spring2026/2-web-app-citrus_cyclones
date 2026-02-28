@@ -7,7 +7,7 @@
 {% block content %}
   {% if recipe %}
     <div class="recipe-detail">
-      <input class="field" type="text" value="{{ recipe.name }}" readonly />
+      <h2>{{ recipe.name }}</h2>
       
       {% if recipe.description %}
         <div class="recipe-card-info">
@@ -17,21 +17,32 @@
       
       {% if recipe.ingredients %}
         <div class="recipe-card-info">
-          <span><strong>Ingredients:</strong> {{ recipe.ingredients|join(', ') }}</span>
+          <strong>Ingredients:</strong>
+          <ul>
+            {% for ingredient in recipe.ingredients %}
+              <li>{{ ingredient }}</li>
+            {% endfor %}
+          </ul>
         </div>
       {% endif %}
       
       {% if recipe.prep_time %}
-        <input class="field" type="text" value="Time to Cook: {{ recipe.prep_time }} minutes" readonly />
+        <p><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</p>
       {% endif %}
 
       {% if recipe.avg_rating %}
-        <input class="field" type="text" value="Avg Rating: {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)" readonly />
+        <p><strong>Avg Rating:</strong> {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)</p>
       {% endif %}
       
       {% if recipe.instructions %}
-        <textarea class="field" readonly rows="6">{% for step in recipe.instructions %}{{ step }}{% if not loop.last %}
-{% endif %}{% endfor %}</textarea>
+        <div class="recipe-card-info">
+          <strong>Instructions:</strong>
+          <ol>
+            {% for step in recipe.instructions %}
+              <li>{{ step }}</li>
+            {% endfor %}
+          </ol>
+        </div>
       {% endif %}
       
 <div class="rating-section">
