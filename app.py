@@ -239,7 +239,8 @@ def edit_recipe(recipe_id):
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         description = request.form.get("description", "").strip()
-        prep_time = request.form.get("prep_time", "").strip()
+        prep_time_raw = request.form.get("prep_time", "").strip()
+        prep_time = int(prep_time_raw) if prep_time_raw else None
         ingredients_raw = request.form.get("ingredients", "")
         instructions_raw = request.form.get("instructions", "")
 
@@ -285,11 +286,15 @@ def search():
     query = ""
     include_ingredients = ""
     exclude_ingredients = ""
+    min_time = ""
+    max_time = ""
 
     if request.method == "POST":
         query = request.form.get("query", "").strip()
         include_ingredients = request.form.get("include_ingredients", "").strip()
         exclude_ingredients = request.form.get("exclude_ingredients", "").strip()
+        min_time = request.form.get("min_time", "").strip()
+        max_time = request.form.get("max_time", "").strip()
 
         filters = {}
 
@@ -303,6 +308,17 @@ def search():
             filters["ingredients"] = {
                 "$all": [{"$elemMatch": {"$regex": term, "$options": "i"}} for term in include_list]
             }
+
+        # Min and Max Time Filter
+        time_filter = {}
+        if min_time:
+            time_filter["$gte"] = int(min_time)
+        if max_time:
+            time_filter["$lte"] = int(max_time)
+
+        if time_filter:
+            filters["prep_time"] = time_filter
+
 
         results = list(recipes_collection.find(filters))
 
@@ -319,7 +335,8 @@ def search():
 
     return render_template("search.html", results=results, query=query,
                            include_ingredients=include_ingredients,
-                           exclude_ingredients=exclude_ingredients)
+                           exclude_ingredients=exclude_ingredients,
+                           min_time=min_time, max_time=max_time)
 
 @app.route("/save/<recipe_id>", methods=["POST"])
 @login_required

@@ -30,8 +30,22 @@
           placeholder="Ingredients to exclude"
           value="{{ exclude_ingredients }}"
         />
-      </div>
+        <input
+          class="field"
+          type="number"
+          name="min_time"
+          placeholder="Min cook time"
+          value="{{ min_time }}"
+        />
 
+        <input
+          class="field"
+          type="number"
+          name="max_time"
+          placeholder="Max cook time"
+          value="{{ max_time }}"
+        />
+      </div>
       <button type="submit" class="btn">Search</button>
     </form>
   </section>
