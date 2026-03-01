@@ -197,7 +197,10 @@ def view_recipe(recipe_id):
     ## work backwards from recipe
     ## recipe is a dictionary so must use [""]
     user = db.users.find_one({"_id": recipe["author_id"]})
-    return render_template("recipe.html", recipe=recipe, user=user)
+
+    from_profile = request.args.get("from_profile")
+
+    return render_template("recipe.html", recipe=recipe, user=user, from_profile=from_profile)
 
 
 @app.route("/add", methods=["GET", "POST"])

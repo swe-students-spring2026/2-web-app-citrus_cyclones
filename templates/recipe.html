@@ -61,9 +61,15 @@
 </div>
       
       <div class="recipe-actions">
-        <a href="{{ url_for('home') }}" class="button-background">
-          <span class="button-text">Back to Home</span>
-        </a>
+        {% if from_profile %}
+          <a href="{{ url_for('profile') }}" class="button-background">
+            <span class="button-text">Back to profile</span>
+          </a>
+        {% else %}
+          <a href="{{ url_for('home') }}" class="button-background">
+            <span class="button-text">Back to Home</span>
+          </a>
+        {% endif %}
         
         <!-- show the view profile button iff this is not the current user's post -->
         {% if recipe.author_id != current_user.id %}
