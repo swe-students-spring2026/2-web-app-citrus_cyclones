@@ -624,7 +624,8 @@ textarea.field {
 }
 
 .comment-rating {
-  font-size: 14px;
+  font-size: 18px;
+  letter-spacing: 2px;
 }
 
 .comment-rating .star-filled {
@@ -639,6 +640,7 @@ textarea.field {
   font-size: 14px;
   line-height: 1.4;
   color: #333;
+  font-style: italic;
 }
 
 .comment-empty {
