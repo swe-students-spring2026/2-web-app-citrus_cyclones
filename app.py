@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import (
     LoginManager, UserMixin,
@@ -169,7 +170,24 @@ def profile():
         recipes_collection.find({"author_id": current_user.id})
     )
 
-    return render_template("profile.html", saved_recipes=saved_recipes, user_recipes=user_recipes)
+    # Get all recipes that the current user has rated
+    user_id_str = str(current_user.id)
+    all_recipes = list(recipes_collection.find())
+    rated_recipes = []
+    for recipe in all_recipes:
+        if recipe.get("ratings") and user_id_str in recipe["ratings"]:
+            rating_timestamps = recipe.get("rating_timestamps", {})
+            rated_recipes.append({
+                "_id": recipe["_id"],
+                "name": recipe["name"],
+                "user_rating": recipe["ratings"][user_id_str],
+                "rated_at": rating_timestamps.get(user_id_str, datetime.min)
+            })
+    
+    # Sort by most recent rating first
+    rated_recipes.sort(key=lambda x: x["rated_at"], reverse=True)
+
+    return render_template("profile.html", saved_recipes=saved_recipes, user_recipes=user_recipes, rated_recipes=rated_recipes)
 
 @app.route("/profile/<user_id>")
 @login_required
@@ -375,11 +393,35 @@ def rate_recipe(recipe_id):
         rating = int(rating)
         recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
         ratings = recipe.get("ratings", {})
-        ratings[str(current_user.id)] = rating  # overwrites if already rated
+        rating_timestamps = recipe.get("rating_timestamps", {})
+        user_id_str = str(current_user.id)
+        ratings[user_id_str] = rating  # overwrites if already rated
+        rating_timestamps[user_id_str] = datetime.utcnow()  # update timestamp
         avg = round(sum(ratings.values()) / len(ratings), 1)
         recipes_collection.update_one(
             {"_id": ObjectId(recipe_id)},
-            {"$set": {"ratings": ratings, "avg_rating": avg}}
+            {"$set": {"ratings": ratings, "avg_rating": avg, "rating_timestamps": rating_timestamps}}
+        )
+    return redirect(url_for("view_recipe", recipe_id=recipe_id))
+
+@app.route("/remove_rating/<recipe_id>", methods=["POST"])
+@login_required
+def remove_rating(recipe_id):
+    recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+    ratings = recipe.get("ratings", {})
+    rating_timestamps = recipe.get("rating_timestamps", {})
+    user_id_str = str(current_user.id)
+    if user_id_str in ratings:
+        del ratings[user_id_str]
+        if user_id_str in rating_timestamps:
+            del rating_timestamps[user_id_str]
+        if ratings:
+            avg = round(sum(ratings.values()) / len(ratings), 1)
+        else:
+            avg = None
+        recipes_collection.update_one(
+            {"_id": ObjectId(recipe_id)},
+            {"$set": {"ratings": ratings, "avg_rating": avg, "rating_timestamps": rating_timestamps}}
         )
     return redirect(url_for("view_recipe", recipe_id=recipe_id))
     

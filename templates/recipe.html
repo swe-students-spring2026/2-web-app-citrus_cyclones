@@ -7,7 +7,20 @@
 {% block content %}
   {% if recipe %}
     <div class="recipe-detail">
-      <h2>{{ recipe.name }}</h2>
+      <div class="recipe-title-row">
+        <h2>{{ recipe.name }}</h2>
+        <div class="avg-rating-display">
+          <div class="avg-stars">
+            <span class="stars-empty">&#9734;&#9734;&#9734;&#9734;&#9734;</span>
+            <span class="stars-filled" style="width: {{ (recipe.avg_rating / 5 * 100) if recipe.avg_rating else 0 }}%;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          {% if recipe.ratings and recipe.ratings|length > 0 %}
+            <span class="rating-text">{{ recipe.avg_rating }}/5 ({{ recipe.ratings|length }} {{ 'review' if recipe.ratings|length == 1 else 'reviews' }})</span>
+          {% else %}
+            <span class="rating-text">No reviews yet</span>
+          {% endif %}
+        </div>
+      </div>
       
       {% if recipe.description %}
         <div class="recipe-card-info">
@@ -29,10 +42,6 @@
       {% if recipe.prep_time %}
         <p><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</p>
       {% endif %}
-
-      {% if recipe.avg_rating %}
-        <p><strong>Avg Rating:</strong> {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)</p>
-      {% endif %}
       
       {% if recipe.instructions %}
         <div class="recipe-card-info">
@@ -48,16 +57,34 @@
 <div class="rating-section">
   <form method="POST" action="{{ url_for('rate_recipe', recipe_id=recipe._id) }}">
     <label><strong>Rate this dish:</strong></label>
-    <input class="field" type="number" name="rating" 
-      min="1" max="5" 
-      value="{{ recipe.ratings[current_user.id|string] if recipe.ratings and current_user.id|string in recipe.ratings else '' }}"
-      placeholder="1-5" required />
+    <div class="star-rating">
+      {% set current_rating = recipe.ratings[current_user.id|string] if recipe.ratings and current_user.id|string in recipe.ratings else 0 %}
+      <input type="radio" id="star5" name="rating" value="5" {% if current_rating == 5 %}checked{% endif %} required />
+      <label for="star5" title="5 stars">&#9733;</label>
+      <input type="radio" id="star4" name="rating" value="4" {% if current_rating == 4 %}checked{% endif %} />
+      <label for="star4" title="4 stars">&#9733;</label>
+      <input type="radio" id="star3" name="rating" value="3" {% if current_rating == 3 %}checked{% endif %} />
+      <label for="star3" title="3 stars">&#9733;</label>
+      <input type="radio" id="star2" name="rating" value="2" {% if current_rating == 2 %}checked{% endif %} />
+      <label for="star2" title="2 stars">&#9733;</label>
+      <input type="radio" id="star1" name="rating" value="1" {% if current_rating == 1 %}checked{% endif %} />
+      <label for="star1" title="1 star">&#9733;</label>
+    </div>
+    <div class="rating-buttons">
+      <button type="submit" class="button-background">
+        <span class="button-text">
+          {{ 'Edit Rating' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Rating' }}
+        </span>
+      </button>
+    </div>
+  </form>
+  {% if recipe.ratings and current_user.id|string in recipe.ratings %}
+  <form method="POST" action="{{ url_for('remove_rating', recipe_id=recipe._id) }}" style="margin-top: 8px;">
     <button type="submit" class="button-background">
-      <span class="button-text">
-        {{ 'Edit Rating' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Rating' }}
-      </span>
+      <span class="button-text">Remove Rating</span>
     </button>
   </form>
+  {% endif %}
 </div>
       
       <div class="recipe-actions">
