@@ -177,10 +177,12 @@ def profile():
     for recipe in all_recipes:
         if recipe.get("ratings") and user_id_str in recipe["ratings"]:
             rating_timestamps = recipe.get("rating_timestamps", {})
+            comments = recipe.get("comments", {})
             rated_recipes.append({
                 "_id": recipe["_id"],
                 "name": recipe["name"],
                 "user_rating": recipe["ratings"][user_id_str],
+                "user_comment": comments.get(user_id_str, ""),
                 "rated_at": rating_timestamps.get(user_id_str, datetime.min)
             })
     
