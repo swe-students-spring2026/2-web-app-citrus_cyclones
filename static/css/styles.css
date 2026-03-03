@@ -548,6 +548,7 @@ textarea.field {
 .rating-section textarea.field {
   width: 100%;
   min-height: 80px;
+  margin-top: 8px;
   margin-bottom: 12px;
   resize: vertical;
 }
