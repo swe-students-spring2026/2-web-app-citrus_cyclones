@@ -7,19 +7,17 @@
 {% block content %}
   {% if recipe %}
     <div class="recipe-detail">
-      <div class="recipe-title-row">
-        <h2>{{ recipe.name }}</h2>
-        <div class="avg-rating-display">
-          <div class="avg-stars">
-            <span class="stars-empty">&#9734;&#9734;&#9734;&#9734;&#9734;</span>
-            <span class="stars-filled" style="width: {{ (recipe.avg_rating / 5 * 100) if recipe.avg_rating else 0 }}%;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          {% if recipe.ratings and recipe.ratings|length > 0 %}
-            <span class="rating-text">{{ recipe.avg_rating }}/5 ({{ recipe.ratings|length }} {{ 'review' if recipe.ratings|length == 1 else 'reviews' }})</span>
-          {% else %}
-            <span class="rating-text">No reviews yet</span>
-          {% endif %}
+      <h2>{{ recipe.name }}</h2>
+      <div class="avg-rating-display">
+        <div class="avg-stars">
+          <span class="stars-empty">&#9734;&#9734;&#9734;&#9734;&#9734;</span>
+          <span class="stars-filled" style="width: {{ (recipe.avg_rating / 5 * 100) if recipe.avg_rating else 0 }}%;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
         </div>
+        {% if recipe.ratings and recipe.ratings|length > 0 %}
+          <span class="rating-text">{{ recipe.avg_rating }}/5 ({{ recipe.ratings|length }} {{ 'review' if recipe.ratings|length == 1 else 'reviews' }})</span>
+        {% else %}
+          <span class="rating-text">No reviews yet</span>
+        {% endif %}
       </div>
       
       {% if recipe.description %}
