@@ -461,6 +461,51 @@ textarea.field {
   line-height: 1.5;
 }
 
+/* Recipe title row with avg rating */
+.recipe-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.recipe-title-row h2 {
+  margin: 0;
+}
+
+.avg-rating-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avg-stars {
+  position: relative;
+  display: inline-block;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.stars-empty {
+  color: #ccc;
+}
+
+.stars-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #f5a623;
+}
+
+.rating-text {
+  font-size: 14px;
+  color: #666;
+}
+
 /* Rating section */
 .rating-section {
   margin-top: 16px;
@@ -468,10 +513,35 @@ textarea.field {
   border: 1px solid #000;
 }
 
-.rating-section label {
+.rating-section > form > label {
   font-size: 14px;
   display: block;
   margin-bottom: 8px;
+}
+
+/* Star rating - CSS only */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input[type="radio"]:checked ~ label {
+  color: #f5a623;
 }
 
 .rating-input {
@@ -502,6 +572,11 @@ textarea.field {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 20px;
+}
+
+.profile-stars {
+  color: #f5a623;
+  font-size: 16px;
 }
 
 /* =====================================================

@@ -74,4 +74,33 @@
       <p class="no-recipes">You haven't created any dishes yet.</p>
     {% endif %}
   </section>
+
+  <!-- Your Ratings Section -->
+  <section class="profile-section">
+    <h2 class="section-title">Your Ratings</h2>
+    {% if rated_recipes %}
+      <ul class="recipe-cards">
+      {% for recipe in rated_recipes %}
+        <li class="recipe-card">
+          <h3>{{ recipe.name }}</h3>
+          <div class="recipe-card-info">
+            <span><strong>Your Rating:</strong>
+              <span class="profile-stars">
+                {% for i in range(recipe.user_rating) %}&#9733;{% endfor %}{% for i in range(5 - recipe.user_rating) %}&#9734;{% endfor %}
+              </span>
+              ({{ recipe.user_rating }}/5)
+            </span>
+          </div>
+          <div class="recipe-actions">
+            <a href="{{ url_for('view_recipe', recipe_id=recipe._id, from_profile=1) }}" class="button-background">
+              <span class="button-text">View Dish</span>
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-recipes">You haven't rated any dishes yet.</p>
+    {% endif %}
+  </section>
 {% endblock %}
