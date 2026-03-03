@@ -65,9 +65,15 @@
               <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
             {% endif %}
             {% if recipe.avg_rating %}
-              <span><strong>Rating:</strong> {{ recipe.avg_rating }} / 5 ({{ recipe.ratings|length }} ratings)</span>
+              <span>
+                <strong>Rating:</strong>
+                <span class="profile-stars">
+                  {% for i in range(recipe.avg_rating|int) %}&#9733;{% endfor %}{% for i in range(5 - recipe.avg_rating|int) %}&#9734;{% endfor %}
+                </span>
+                {{ recipe.avg_rating }}/5 ({{ recipe.ratings|length }} {{ 'review' if recipe.ratings|length == 1 else 'reviews' }})
+              </span>
             {% else %}
-              <span><strong>Rating:</strong> Not yet rated</span>
+              <span><strong>Rating:</strong> No reviews yet</span>
             {% endif %}
           </div>
           <div class="recipe-actions">

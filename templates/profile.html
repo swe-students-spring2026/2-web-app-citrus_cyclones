@@ -84,6 +84,12 @@
         <li class="recipe-card">
           <h3>{{ recipe.name }}</h3>
           <div class="recipe-card-info">
+            {% if recipe.ingredients %}
+              <span><strong>Ingredients:</strong> {{ recipe.ingredients[:4]|join(', ') }}{% if recipe.ingredients|length > 4 %}...{% endif %}</span>
+            {% endif %}
+            {% if recipe.prep_time %}
+              <span><strong>Time to Cook:</strong> {{ recipe.prep_time }} minutes</span>
+            {% endif %}
             <span><strong>Your Rating:</strong>
               <span class="profile-stars">
                 {% for i in range(recipe.user_rating) %}&#9733;{% endfor %}{% for i in range(5 - recipe.user_rating) %}&#9734;{% endfor %}
