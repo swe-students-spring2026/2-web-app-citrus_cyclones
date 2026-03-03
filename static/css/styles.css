@@ -486,8 +486,8 @@ textarea.field {
 .view-comments-btn {
   padding: 6px 12px;
   font-size: 14px;
-  color: #000;
-  background: #fff;
+  color: #fff;
+  background: #000;
   border: 1px solid #000;
   text-decoration: underline;
   cursor: pointer;
@@ -495,8 +495,7 @@ textarea.field {
 }
 
 .view-comments-btn:hover {
-  background: #000;
-  color: #fff;
+  opacity: 0.85;
 }
 
 .avg-rating-display {
