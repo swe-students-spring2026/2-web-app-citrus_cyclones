@@ -177,10 +177,12 @@ def profile():
     for recipe in all_recipes:
         if recipe.get("ratings") and user_id_str in recipe["ratings"]:
             rating_timestamps = recipe.get("rating_timestamps", {})
+            comments = recipe.get("comments", {})
             rated_recipes.append({
                 "_id": recipe["_id"],
                 "name": recipe["name"],
                 "user_rating": recipe["ratings"][user_id_str],
+                "user_comment": comments.get(user_id_str, ""),
                 "rated_at": rating_timestamps.get(user_id_str, datetime.min)
             })
     
@@ -389,18 +391,21 @@ def inject_saved_ids():
 @login_required
 def rate_recipe(recipe_id):
     rating = request.form.get("rating")
+    comment = request.form.get("comment", "").strip()
     if rating:
         rating = int(rating)
         recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
         ratings = recipe.get("ratings", {})
+        comments = recipe.get("comments", {})
         rating_timestamps = recipe.get("rating_timestamps", {})
         user_id_str = str(current_user.id)
         ratings[user_id_str] = rating  # overwrites if already rated
+        comments[user_id_str] = comment  # save comment
         rating_timestamps[user_id_str] = datetime.utcnow()  # update timestamp
         avg = round(sum(ratings.values()) / len(ratings), 1)
         recipes_collection.update_one(
             {"_id": ObjectId(recipe_id)},
-            {"$set": {"ratings": ratings, "avg_rating": avg, "rating_timestamps": rating_timestamps}}
+            {"$set": {"ratings": ratings, "comments": comments, "avg_rating": avg, "rating_timestamps": rating_timestamps}}
         )
     return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
@@ -409,10 +414,13 @@ def rate_recipe(recipe_id):
 def remove_rating(recipe_id):
     recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
     ratings = recipe.get("ratings", {})
+    comments = recipe.get("comments", {})
     rating_timestamps = recipe.get("rating_timestamps", {})
     user_id_str = str(current_user.id)
     if user_id_str in ratings:
         del ratings[user_id_str]
+        if user_id_str in comments:
+            del comments[user_id_str]
         if user_id_str in rating_timestamps:
             del rating_timestamps[user_id_str]
         if ratings:
@@ -421,9 +429,36 @@ def remove_rating(recipe_id):
             avg = None
         recipes_collection.update_one(
             {"_id": ObjectId(recipe_id)},
-            {"$set": {"ratings": ratings, "avg_rating": avg, "rating_timestamps": rating_timestamps}}
+            {"$set": {"ratings": ratings, "comments": comments, "avg_rating": avg, "rating_timestamps": rating_timestamps}}
         )
     return redirect(url_for("view_recipe", recipe_id=recipe_id))
+
+@app.route("/comments/<recipe_id>")
+@login_required
+def view_comments(recipe_id):
+    recipe = recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+    if not recipe:
+        return redirect(url_for("home"))
+    
+    ratings = recipe.get("ratings", {})
+    comments = recipe.get("comments", {})
+    
+    # Build list of reviews with user info
+    reviews = []
+    for user_id_str, rating in ratings.items():
+        try:
+            user = db.users.find_one({"_id": ObjectId(user_id_str)})
+            username = user["username"] if user else "Unknown"
+        except:
+            username = "Unknown"
+        reviews.append({
+            "user_id": user_id_str,
+            "username": username,
+            "rating": rating,
+            "comment": comments.get(user_id_str, "")
+        })
+    
+    return render_template("comments.html", recipe=recipe, reviews=reviews)
     
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)

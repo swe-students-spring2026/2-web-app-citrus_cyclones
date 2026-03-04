@@ -73,7 +73,7 @@
             {% endif %}
           </div>
           <div class="recipe-actions">
-            <a href="{{ url_for('view_recipe', recipe_id=recipe._id)?from_profile=1}}" class="button-background">
+            <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}?from_profile=1" class="button-background">
               <span class="button-text">See Dish</span>
             </a>
           </div>

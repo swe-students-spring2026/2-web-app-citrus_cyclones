@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block header %}
+  Reviews
+{% endblock %}
+
+{% block content %}
+  <div class="comments-page">
+    <h2>{{ recipe.name }}</h2>
+    <p class="comments-subtitle">
+      {% if reviews|length > 0 %}
+        {{ reviews|length }} {{ 'review' if reviews|length == 1 else 'reviews' }}
+      {% else %}
+        No reviews yet
+      {% endif %}
+    </p>
+
+    {% if reviews|length > 0 %}
+      <div class="comments-list">
+        {% for review in reviews %}
+          <div class="comment-card {% if review.user_id == current_user.id|string %}comment-card-own{% endif %}">
+            <div class="comment-header">
+              <span class="comment-author">{{ review.username }}</span>
+              <div class="comment-rating">
+                {% for i in range(5) %}
+                  {% if i < review.rating %}
+                    <span class="star-filled">&#9733;</span>
+                  {% else %}
+                    <span class="star-empty">&#9734;</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+            {% if review.comment %}
+              <p class="comment-text">"{{ review.comment }}"</p>
+            {% else %}
+              <p class="comment-text comment-empty">No comment</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="comments-actions">
+      <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}" class="button-background">
+        <span class="button-text">Back to Recipe</span>
+      </a>
+    </div>
+  </div>
+{% endblock %}

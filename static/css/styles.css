@@ -479,6 +479,29 @@ textarea.field {
   margin: 0;
 }
 
+.avg-rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.view-comments-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #fff;
+  background: #000;
+  border: 1px solid #000;
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.view-comments-btn:hover {
+  opacity: 0.85;
+}
+
 .avg-rating-display {
   display: flex;
   align-items: center;
@@ -568,6 +591,81 @@ textarea.field {
 }
 
 /* =====================================================
+   COMMENTS PAGE
+   ===================================================== */
+
+.comments-page h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.comments-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.comment-card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.comment-card-own {
+  border-color: #000;
+  background: #fff;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.comment-rating {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.comment-rating .star-filled {
+  color: #f5a623;
+}
+
+.comment-rating .star-empty {
+  color: #ccc;
+}
+
+.comment-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #333;
+  font-style: italic;
+}
+
+.comment-empty {
+  color: #999;
+  font-style: italic;
+}
+
+.comments-actions {
+  margin-top: 16px;
+}
+
+/* =====================================================
    PROFILE PAGE
    ===================================================== */
 
@@ -590,6 +688,25 @@ textarea.field {
 .profile-stars {
   color: #f5a623;
   font-size: 16px;
+}
+
+/* Review display on profile page */
+.review-display {
+  margin: 8px 0 12px 0;
+}
+
+.review-stars {
+  color: #f5a623;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.review-comment {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+  font-style: italic;
+  line-height: 1.4;
 }
 
 /* =====================================================

@@ -8,16 +8,19 @@
   {% if recipe %}
     <div class="recipe-detail">
       <h2>{{ recipe.name }}</h2>
-      <div class="avg-rating-display">
-        <div class="avg-stars">
-          <span class="stars-empty">&#9734;&#9734;&#9734;&#9734;&#9734;</span>
-          <span class="stars-filled" style="width: {{ (recipe.avg_rating / 5 * 100) if recipe.avg_rating else 0 }}%;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <div class="avg-rating-row">
+        <div class="avg-rating-display">
+          <div class="avg-stars">
+            <span class="stars-empty">&#9734;&#9734;&#9734;&#9734;&#9734;</span>
+            <span class="stars-filled" style="width: {{ (recipe.avg_rating / 5 * 100) if recipe.avg_rating else 0 }}%;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          {% if recipe.ratings and recipe.ratings|length > 0 %}
+            <span class="rating-text">{{ recipe.avg_rating }}/5 ({{ recipe.ratings|length }} {{ 'review' if recipe.ratings|length == 1 else 'reviews' }})</span>
+          {% else %}
+            <span class="rating-text">No reviews yet</span>
+          {% endif %}
         </div>
-        {% if recipe.ratings and recipe.ratings|length > 0 %}
-          <span class="rating-text">{{ recipe.avg_rating }}/5 ({{ recipe.ratings|length }} {{ 'review' if recipe.ratings|length == 1 else 'reviews' }})</span>
-        {% else %}
-          <span class="rating-text">No reviews yet</span>
-        {% endif %}
+        <a href="{{ url_for('view_comments', recipe_id=recipe._id) }}" class="view-comments-btn">View Reviews</a>
       </div>
       
       {% if recipe.description %}
@@ -73,7 +76,7 @@
     <div class="rating-buttons">
       <button type="submit" class="button-background">
         <span class="button-text">
-          {{ 'Edit Review' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Review' }}
+          {{ 'Save Changes' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Review' }}
         </span>
       </button>
     </div>
