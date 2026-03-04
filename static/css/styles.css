@@ -461,6 +461,10 @@ textarea.field {
   line-height: 1.5;
 }
 
+.time-to-cook {
+  color: #333333;
+}
+
 /* Recipe title row with avg rating */
 .recipe-title-row {
   display: flex;
@@ -565,6 +569,15 @@ textarea.field {
 .star-rating label:hover ~ label,
 .star-rating input[type="radio"]:checked ~ label {
   color: #f5a623;
+}
+
+/* Comment textarea in rating section */
+.rating-section textarea.field {
+  width: 100%;
+  min-height: 80px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  resize: vertical;
 }
 
 .rating-input {
