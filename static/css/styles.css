@@ -461,6 +461,10 @@ textarea.field {
   line-height: 1.5;
 }
 
+.time-to-cook {
+  color: #333333;
+}
+
 /* Recipe title row with avg rating */
 .recipe-title-row {
   display: flex;
