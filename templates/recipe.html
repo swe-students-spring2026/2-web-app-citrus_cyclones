@@ -54,7 +54,7 @@
       
 <div class="rating-section">
   <form method="POST" action="{{ url_for('rate_recipe', recipe_id=recipe._id) }}">
-    <label><strong>Rate this dish:</strong></label>
+    <label><strong>Leave a Review:</strong></label>
     <div class="star-rating">
       {% set current_rating = recipe.ratings[current_user.id|string] if recipe.ratings and current_user.id|string in recipe.ratings else 0 %}
       <input type="radio" id="star5" name="rating" value="5" {% if current_rating == 5 %}checked{% endif %} required />
@@ -68,10 +68,12 @@
       <input type="radio" id="star1" name="rating" value="1" {% if current_rating == 1 %}checked{% endif %} />
       <label for="star1" title="1 star">&#9733;</label>
     </div>
+    {% set current_comment = recipe.comments[current_user.id|string] if recipe.comments and current_user.id|string in recipe.comments else '' %}
+    <textarea name="comment" class="field" placeholder="Write your comment (optional)..." rows="3">{{ current_comment }}</textarea>
     <div class="rating-buttons">
       <button type="submit" class="button-background">
         <span class="button-text">
-          {{ 'Edit Rating' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Rating' }}
+          {{ 'Edit Review' if recipe.ratings and current_user.id|string in recipe.ratings else 'Submit Review' }}
         </span>
       </button>
     </div>
@@ -79,7 +81,7 @@
   {% if recipe.ratings and current_user.id|string in recipe.ratings %}
   <form method="POST" action="{{ url_for('remove_rating', recipe_id=recipe._id) }}" style="margin-top: 8px;">
     <button type="submit" class="button-background">
-      <span class="button-text">Remove Rating</span>
+      <span class="button-text">Remove Review</span>
     </button>
   </form>
   {% endif %}

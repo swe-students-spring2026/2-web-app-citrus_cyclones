@@ -544,6 +544,15 @@ textarea.field {
   color: #f5a623;
 }
 
+/* Comment textarea in rating section */
+.rating-section textarea.field {
+  width: 100%;
+  min-height: 80px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  resize: vertical;
+}
+
 .rating-input {
   height: 50px;
   border: 1px solid #000;
