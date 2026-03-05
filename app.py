@@ -222,35 +222,6 @@ def view_recipe(recipe_id):
 
     return render_template("recipe.html", recipe=recipe, user=user, from_profile=from_profile)
 
-
-@app.route("/add", methods=["GET", "POST"])
-@login_required
-def add_recipe():
-    """Add a new recipe."""
-    if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        description = request.form.get("description", "").strip()
-        ingredients_raw = request.form.get("ingredients", "")
-        instructions_raw = request.form.get("instructions", "")
-
-        ingredients = [i.strip() for i in ingredients_raw.split("\n") if i.strip()]
-        instructions = [i.strip() for i in instructions_raw.split("\n") if i.strip()]
-
-        if name:
-            recipes_collection.insert_one(
-                {
-                    "name": name,
-                    "description": description,
-                    "ingredients": ingredients,
-                    "instructions": instructions,
-                    "author_id": current_user.id
-                }
-            )
-        return redirect(url_for("home"))
-
-    return render_template("add.html")
-
-
 @app.route("/edit/<recipe_id>", methods=["GET", "POST"])
 @login_required
 def edit_recipe(recipe_id):
