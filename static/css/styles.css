@@ -73,6 +73,7 @@ body {
   outline: none;
   width: 100%;
   background: white;
+  font-family: inherit;
 }
 
 .field:focus {
